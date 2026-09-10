@@ -3,4 +3,12 @@ This project is solely for my learning on ML systems and, in general, how to mak
 
 
 ## DESCRIPTION
-This project is designed to create, firstly, a Tic-Tac-Toe environment; secondly, an agent capable of playing Tic-Tac-Toe; thirdly, an algorithm (Q-Learning) to train the agent against itself; and finally, a system that allows the user to play against the 
+This project is designed to create, firstly, a Tic-Tac-Toe environment; secondly, an agent capable of playing Tic-Tac-Toe; thirdly, an algorithm (Q-Learning) to train the agent against itself; and finally, a system that allows the user to play against the newly trained agent.
+
+## PROBLEMS
+A major design flaw in the early stages of development was that the agent had no way of comprehending symmetry with the board. For example, one the first move, the agent would evaluate the positions 0 and 2 separately, even though, tactically, they are the same. This led to Q-Values of seemingly identical positions (tactically) to be different. (More information here). To fix this, I consulted with Claude on a symmetry system, i.e. building a Tic-Tac-Toe tuple containing every possible, single transformation on the board. Then, the agent would refer back to this information for every step, allowing comprehension of symmetry and, eventually, evaluating moves that are the same tactically equally. (This led to the agent finally evaluating the middle as the best first move)
+
+Another major design flaw in the code was the lack of choice for who went first. The simple fix to this is to give the user an input, with answering either y/n deciding who went first. The problem with this comes down to the training. When the agent first trains, what actually happens is that two agents are created and trained separately. The first agent (agent 1) always moves first and the second agent (agent 2) always moves second. This means, in Tic-Tac-Toe terms, agent 1 always evaluates a board with one more X than 0 (or vice versa). Agent 2 always evaluates a board with equal Xs and Os. Because of this, we can not simply let agent 1 go second, since it has never been exposed to a board with equal Xs and 0s. The solution, simply, is to instead use either agent 1 or 2 depending on the input of the user and to use the Q-Tables of the corresponding agent.
+
+## RUNNING IT
+I have provided my own Q-Tables from my own training when testing. However, if you'd like to, you will have the option of training the model yourself. Simply run train.py before running play.py. If you would like to save time (it takes ~20 minutes), simply import both Q-Tables along with all of the modules and run play.py
